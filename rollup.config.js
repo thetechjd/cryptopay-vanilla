@@ -6,8 +6,8 @@ import copy from 'rollup-plugin-copy';
 export default {
     input: 'src/main.js', // Adjust this path to your source file
     output: {
-      file: 'dist/bundle.js', // Adjust the output file as needed
-      format: 'umd', // Universal Module Definition
+      file: 'dist/main.js', // Adjust the output file as needed
+      format: 'esm', // Universal Module Definition
       name: 'CryptoPayButton', // Exposed global variable when included via script tag
     },
     plugins: [
@@ -20,7 +20,7 @@ export default {
       copy({
         targets: [
           { src: 'style.css', dest: 'dist/' },
-          { src: 'src/images/*', dest: 'dist/images/' } // Copy all images
+          { src: 'src/assets/*', dest: 'dist/assets/' } // Copy all images
         ]
       })
     ],

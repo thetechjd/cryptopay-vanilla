@@ -1,4 +1,4 @@
-function cryptoPayButton(containerSelector, apiKey, productId) {
+export function cryptoPayButton(containerSelector, apiKey, productId) {
   document.addEventListener('DOMContentLoaded', function() {
     const container = document.getElementById(containerSelector);
    
@@ -6,9 +6,9 @@ function cryptoPayButton(containerSelector, apiKey, productId) {
      const modalHTML = `
      <div id="modalContainer">
        <div id="modalContent">
-         <span><img id="logo" src="./assets/cryptocadetlogo_white.png"/>cryptocadet&trade;</span>
-         <a href="#" id="metamaskLink"><button><img src="./assets/MetaMask_Fox.png"/> Open Metamask</button></a>
-         <a href="#" id="coinbaseLink"><button><img src="./assets/coinbase_icon.png"/>Open Coinbase Wallet</button></a>
+         <span><img id="logo" src="./dist/assets/cryptocadetlogo_white.png"/>cryptocadet&trade;</span>
+         <a href="#" id="metamaskLink"><button><img src="./dist/assets/MetaMask_Fox.png"/> Open Metamask</button></a>
+         <a href="#" id="coinbaseLink"><button><img src="./dist/assets/coinbase_icon.png"/>Open Coinbase Wallet</button></a>
        </div>
      </div>`;
      document.body.insertAdjacentHTML("beforeend", modalHTML);
@@ -49,7 +49,7 @@ function cryptoPayButton(containerSelector, apiKey, productId) {
               refCode = q.get("referrer");
             }
           }
-          if (!isMobileDevice()) {
+          if (isMobileDevice()) {
             // Construct the URLs
             const metamaskURL = `https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=${apiKey}&prod=${productId}&referrer=${refCode}`;
             const coinbaseURL = `https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D${apiKey}%26prod%3D${productId}%26referrer%3D${refCode}`;
@@ -115,5 +115,3 @@ function cryptoPayButton(containerSelector, apiKey, productId) {
 
 
 
-// Export this function for use when the script is included in a web page
-export { cryptoPayButton };

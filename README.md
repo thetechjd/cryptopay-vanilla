@@ -12,24 +12,23 @@ Crypto-Pay is an api for evm-chain crypto payment integration written in pure ja
 - Create affiliate codes for your own referral program
 
 
-Inside the body of your HTML before the </body> tag, insert the following script:
+Inside the body of your HTML before the closing body tag, insert the following script:
 
 ```sh
  <script type="module">
-      import { cryptoPayButton } from './src/main.js';
-      cryptoPayButton('buttonSpot','YOUR_API_KEY', 'YOUR_PROD_ID');
+      import { cryptoPayButton } from 'https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.8.0';
+      cryptoPayButton('ELEMENT_ID','YOUR_API_KEY', 'YOUR_PROD_ID');
     </script>
 ```
-
-In your page or index file, dynamically import the created component:
+ELEMENT_ID is the name of any id appearing within your document that you want to append the button to. YOUR_API_KEY is the apiKey generated for your account at [Ascendant.Finance](https://app.ascendant.finance). YOUR_PROD_ID is the id you create for the particular product linked to this button.
 
 
 ## Styles
 
-React Crypto Pay Modal style can be customized by targeting the cryptopaymodal and cryptopaybutton classes and the style tag in JSX. Web3Modal styles can be imported by adding the following in the component file:
+In the head of the html, add a link tag with a reference to the stylesheet:
 
 ```sh
-import 'react-crypto-pay/dist/style.css'
+<link href="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.8.0/dist/style.css" rel="stylesheet">
 ```
 
 

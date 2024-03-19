@@ -1,9 +1,25 @@
 {
-  "name": "@cryptocadet/vanilla-crypto-pay",
+  "name": "@cryptocadet/crypto-pay-vanilla",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.8.0",
   "description": "Api for evm-chain crypto payment integration written in pure Javascript.",
-  "main": "index.js",
+  "main": "./dist/main.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/main.js",
+      "require": "./dist/main.js"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+   
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thetechjd/cryptopay-vanilla.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c"
@@ -32,4 +48,5 @@
     "rollup": "^4.13.0",
     "rollup-plugin-copy": "^3.5.0"
   }
+ 
 }

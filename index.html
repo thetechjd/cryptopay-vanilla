@@ -4,15 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CryptoCadet&trade; Pay</title>
-    <link rel="stylesheet" href="style.css" />
+    <link href="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.8.0/dist/style.css" rel="stylesheet">
 
   </head>
   <body>
-   
+
     <script type="module">
-      import { cryptoPayButton } from './src/main.js';
-      cryptoPayButton('buttonSpot','ntjCcsamqnVIrV8kCmYM4nllTqBgAtnql0S', 'sometestid0');
+     import { cryptoPayButton } from 'https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.8.0';
+      cryptoPayButton('ELEMENT_ID','YOUR_API_KEY', 'YOUR_PROD_ID');
+
     </script>
+   
+    
    
   </body>
 </html>
