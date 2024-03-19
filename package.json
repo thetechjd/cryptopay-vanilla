@@ -1,0 +1,35 @@
+{
+  "name": "@cryptocadet/vanilla-crypto-pay",
+  "private": false,
+  "version": "1.0.0",
+  "description": "Api for evm-chain crypto payment integration written in pure Javascript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "crypto",
+    "pay",
+    "wallet",
+    "javascript",
+    "vanilla"
+  ],
+  "author": "TechJD",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.24.1",
+    "@babel/preset-env": "^7.24.1",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.13.0",
+    "rollup-plugin-copy": "^3.5.0"
+  }
+}
