@@ -3,7 +3,7 @@ function cryptoPayButton(containerSelector, apiKey, productId) {
     var container = document.getElementById(containerSelector);
 
     // Inject the modal HTML
-    var modalHTML = "\n     <div id=\"modalContainer\">\n       <div id=\"modalContent\">\n         <span><img id=\"logo\" src=\"./dist/assets/cryptocadetlogo_white.png\"/>cryptocadet&trade;</span>\n         <a href=\"#\" id=\"metamaskLink\"><button><img src=\"./dist/assets/MetaMask_Fox.png\"/> Open Metamask</button></a>\n         <a href=\"#\" id=\"coinbaseLink\"><button><img src=\"./dist/assets/coinbase_icon.png\"/>Open Coinbase Wallet</button></a>\n       </div>\n     </div>";
+    var modalHTML = "\n     <div id=\"modalContainer\">\n       <div id=\"modalContent\">\n         <span><img id=\"logo\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.10.0/dist/assets/cryptocadetlogo_white.png\"/>cryptocadet&trade;</span>\n         <a href=\"#\" id=\"metamaskLink\"><button><img src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.10.0/dist/assets/MetaMask_Fox.png\"/> Open Metamask</button></a>\n         <a href=\"#\" id=\"coinbaseLink\"><button><img src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.10.0/dist/assets/coinbase_icon.png\"/>Open Coinbase Wallet</button></a>\n       </div>\n     </div>";
     document.body.insertAdjacentHTML("beforeend", modalHTML);
 
     // Check if button already exists
