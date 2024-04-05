@@ -1,4 +1,4 @@
-export function cryptoPayButton(containerSelector, apiKey, productId) {
+export function cryptoPayButton({apiKey, productId, label, style, containerSelector, email, shippingAddress}) {
   document.addEventListener('DOMContentLoaded', function(event) {
     const container = document.getElementById(containerSelector);
     
@@ -6,9 +6,9 @@ export function cryptoPayButton(containerSelector, apiKey, productId) {
     const modalHTML = `
     <div id="modalContainer" style="display: none;">
       <div id="modalContent">
-        <span><img id="logo" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.11.0/dist/assets/cryptocadetlogo_white.png"/>cryptocadet&trade;</span>
-        <a href="#" id="metamaskLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.11.0/dist/assets/MetaMask_Fox.png"/> Open Metamask</button></a>
-        <a href="#" id="coinbaseLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.11.0/dist/assets/coinbase_icon.png"/>Open Coinbase Wallet</button></a>
+        <span><img id="logo" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/cryptocadetlogo_white.png"/>cryptocadet&trade;</span>
+        <a href="#" id="metamaskLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/MetaMask_Fox.png"/> Open Metamask</button></a>
+        <a href="#" id="coinbaseLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/coinbase_icon.png"/>Open Coinbase Wallet</button></a>
       </div>
     </div>`;
     document.body.insertAdjacentHTML("beforeend", modalHTML);
@@ -41,7 +41,8 @@ export function cryptoPayButton(containerSelector, apiKey, productId) {
     if (!document.getElementById("showModalButton")) {
       const button = document.createElement('button');
       button.id = 'showModalButton';
-      button.textContent = 'Pay With Crypto';
+      button.textContent = label; // Set button text
+      button.style = style;
 
       (container ? container : document.body).appendChild(button);
 
@@ -61,8 +62,8 @@ export function cryptoPayButton(containerSelector, apiKey, productId) {
         }
         
         if (isMobileDevice()) {
-          const metamaskURL = `https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=${apiKey}&prod=${productId}&referrer=${refCode}`;
-          const coinbaseURL = `https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D${apiKey}%26prod%3D${productId}%26referrer%3D${refCode}`;
+          const metamaskURL = `https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=${apiKey}&prod=${productId}&referrer=${refCode}&email=${email}&shippingAddress=${shippingAddress}`;
+          const coinbaseURL = `https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D${apiKey}%26prod%3D${productId}%26referrer%3D${refCode}%26email%3D${email}%26shippingAddress%3D${shippingAddress}`;
 
           metamaskLink.setAttribute("href", metamaskURL);
           coinbaseLink.setAttribute("href", coinbaseURL);
@@ -87,7 +88,7 @@ width=400,height=500,left=${window.screen.width},top=0`;
           .then(response => response.json())
           .then(data => {
             if (data) {
-              const newUrl = `https://portal.cryptocadet.app?pubKey=${apiKey}&prod=${productId}&referrer=${refCode}`;
+              const newUrl = `https://portal.cryptocadet.app?pubKey=${apiKey}&prod=${productId}&referrer=${refCode}&email=${email}&shippingAddress=${shippingAddress}`;
               newWindow.location = newUrl;
             } else {
               newWindow.close();

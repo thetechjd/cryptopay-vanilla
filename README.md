@@ -16,11 +16,19 @@ Inside the body of your HTML before the closing body tag, insert the following s
 
 ```sh
  <script type="module">
-      import { cryptoPayButton } from 'https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.8.0';
-      cryptoPayButton('ELEMENT_ID','YOUR_API_KEY', 'YOUR_PROD_ID');
-    </script>
+     import { cryptoPayButton } from 'https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0';
+      cryptoPayButton({
+        apiKey: 'YOUR_API_KEY',
+        productId:  'YOUR_PRODUCT_ID',
+        containerSelector:  'ELEMENT_ID',
+        style: null,
+        email: 'required',
+        shippingAddress: 'required',
+        label:  'Now in Red'
+
+      });
 ```
-ELEMENT_ID is the name of any id appearing within your document that you want to append the button to. YOUR_API_KEY is the apiKey generated for your account at [Ascendant.Finance](https://app.ascendant.finance). YOUR_PROD_ID is the id you create for the particular product linked to this button.
+ELEMENT_ID is the name of any id appearing within your document that you want to append the button to. YOUR_API_KEY is the apiKey generated for your account at [Ascendant.Finance](https://app.ascendant.finance). YOUR_PROD_ID is the id you create for the particular product linked to this button. The 'email' and 'shippingAddress' variables can be required in order to request the user's email and shipping address upon payment. Styles can be input via the style variable to change the button style.
 
 
 ## Styles
@@ -28,7 +36,7 @@ ELEMENT_ID is the name of any id appearing within your document that you want to
 In the head of the html, add a link tag with a reference to the stylesheet:
 
 ```sh
-<link href="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.8.0/dist/style.css" rel="stylesheet">
+<link href="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/style.css" rel="stylesheet">
 ```
 
 
