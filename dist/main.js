@@ -5,12 +5,22 @@ function cryptoPayButton(_ref) {
     style = _ref.style,
     containerSelector = _ref.containerSelector,
     email = _ref.email,
-    shippingAddress = _ref.shippingAddress;
+    shippingAddress = _ref.shippingAddress,
+    lang = _ref.lang;
   document.addEventListener('DOMContentLoaded', function (event) {
     var container = document.getElementById(containerSelector);
+    var translation = {
+      "en": "Open",
+      "fr": "Ouvrir",
+      "ar": "افتح",
+      "es": "Abrir",
+      "pt": "Abrir",
+      "de": "Öffnen",
+      "zh": "打开"
+    };
 
     // Inject the modal HTML
-    var modalHTML = "\n    <div id=\"modalContainer\" style=\"display: none;\">\n      <div id=\"modalContent\">\n        <span><img id=\"logo\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/cryptocadetlogo_white.png\"/>cryptocadet&trade;</span>\n        <a href=\"#\" id=\"metamaskLink\"><button><img src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/MetaMask_Fox.png\"/> Open Metamask</button></a>\n        <a href=\"#\" id=\"coinbaseLink\"><button><img src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/coinbase_icon.png\"/>Open Coinbase Wallet</button></a>\n      </div>\n    </div>";
+    var modalHTML = "\n    <div id=\"modalContainer\" style=\"display: none;\">\n      <div id=\"modalContent\">\n        <span><img id=\"logo\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/cryptocadetlogo_white.png\"/>cryptocadet&trade;</span>\n        <a href=\"#\" id=\"metamaskLink\"><button><img src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/MetaMask_Fox.png\"/> ".concat(translation[lang], " Metamask</button></a>\n        <a href=\"#\" id=\"coinbaseLink\"><button><img src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/coinbase_icon.png\"/> ").concat(translation[lang], " Coinbase Wallet</button></a>\n      </div>\n    </div>");
     document.body.insertAdjacentHTML("beforeend", modalHTML);
     var modalContainer = document.getElementById("modalContainer");
     var metamaskLink = document.getElementById("metamaskLink");
@@ -52,8 +62,8 @@ function cryptoPayButton(_ref) {
           }
         }
         if (isMobileDevice()) {
-          var metamaskURL = "https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=".concat(apiKey, "&prod=").concat(productId, "&referrer=").concat(refCode, "&email=").concat(email, "&shippingAddress=").concat(shippingAddress);
-          var coinbaseURL = "https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D".concat(apiKey, "%26prod%3D").concat(productId, "%26referrer%3D").concat(refCode, "%26email%3D").concat(email, "%26shippingAddress%3D").concat(shippingAddress);
+          var metamaskURL = "https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=".concat(apiKey, "&prod=").concat(productId, "&referrer=").concat(refCode, "&email=").concat(email, "&shippingAddress=").concat(shippingAddress, "&lang=").concat(lang);
+          var coinbaseURL = "https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D".concat(apiKey, "%26prod%3D").concat(productId, "%26referrer%3D").concat(refCode, "%26email%3D").concat(email, "%26shippingAddress%3D").concat(shippingAddress, "%26lang%3D").concat(lang);
           metamaskLink.setAttribute("href", metamaskURL);
           coinbaseLink.setAttribute("href", coinbaseURL);
           showModal(); // Instead of directly manipulating style, we call showModal
@@ -75,7 +85,7 @@ function cryptoPayButton(_ref) {
             return response.json();
           }).then(function (data) {
             if (data) {
-              var newUrl = "https://portal.cryptocadet.app?pubKey=".concat(apiKey, "&prod=").concat(productId, "&referrer=").concat(refCode, "&email=").concat(email, "&shippingAddress=").concat(shippingAddress);
+              var newUrl = "https://portal.cryptocadet.app?pubKey=".concat(apiKey, "&prod=").concat(productId, "&referrer=").concat(refCode, "&email=").concat(email, "&shippingAddress=").concat(shippingAddress, "&lang=").concat(lang);
               newWindow.location = newUrl;
             } else {
               newWindow.close();

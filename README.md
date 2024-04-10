@@ -24,11 +24,20 @@ Inside the body of your HTML before the closing body tag, insert the following s
         style: null,
         email: 'required',
         shippingAddress: 'required',
-        label:  'Now in Red'
+        label:  'Now in Red',
+        lang: 'en'
 
       });
 ```
-ELEMENT_ID is the name of any id appearing within your document that you want to append the button to. YOUR_API_KEY is the apiKey generated for your account at [Ascendant.Finance](https://app.ascendant.finance). YOUR_PROD_ID is the id you create for the particular product linked to this button. The 'email' and 'shippingAddress' variables can be required in order to request the user's email and shipping address upon payment. Styles can be input via the style variable to change the button style.
+ELEMENT_ID is the name of any id appearing within your document that you want to append the button to. YOUR_API_KEY is the apiKey generated for your account at [Ascendant.Finance](https://app.ascendant.finance). YOUR_PROD_ID is the id you create for the particular product linked to this button. The 'email' and 'shippingAddress' variables can be required in order to request the user's email and shipping address upon payment. Styles can be input via the style variable to change the button style. The lang property corresponds to the ISO 639-1 Code for the following supported languages:
+
+- ar (Arabic)
+- de (German)
+- en (English)
+- es (Spanish)
+- fr (French)
+- pt (Portuguese)
+- zh (Chinese)
 
 
 ## Styles
