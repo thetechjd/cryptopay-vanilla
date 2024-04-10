@@ -16,9 +16,9 @@ export function cryptoPayButton({apiKey, productId, label, style, containerSelec
     const modalHTML = `
     <div id="modalContainer" style="display: none;">
       <div id="modalContent">
-        <span><img id="logo" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/cryptocadetlogo_white.png"/>cryptocadet&trade;</span>
-        <a href="#" id="metamaskLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/MetaMask_Fox.png"/> ${translation[lang]} Metamask</button></a>
-        <a href="#" id="coinbaseLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.13.0/dist/assets/coinbase_icon.png"/> ${translation[lang]} Coinbase Wallet</button></a>
+        <span><img id="logo" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/cryptocadetlogo_white.png"/>cryptocadet&trade;</span>
+        <a href="#" id="metamaskLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/MetaMask_Fox.png"/> ${translation[lang]} Metamask</button></a>
+        <a href="#" id="coinbaseLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/coinbase_icon.png"/> ${translation[lang]} Coinbase Wallet</button></a>
       </div>
     </div>`;
     document.body.insertAdjacentHTML("beforeend", modalHTML);
