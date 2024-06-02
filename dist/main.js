@@ -1,3 +1,7 @@
+function generateUniqueId(prefix) {
+  // Generates a unique ID using a prefix and a random string
+  return "".concat(prefix, "-").concat(Math.random().toString(36).substr(2, 9));
+}
 function cryptoPayButton(_ref) {
   var apiKey = _ref.apiKey,
     productId = _ref.productId,
@@ -9,6 +13,10 @@ function cryptoPayButton(_ref) {
     lang = _ref.lang;
   document.addEventListener('DOMContentLoaded', function (event) {
     var container = document.getElementById(containerSelector);
+
+    //const buttonStyle = "padding: 10px 20px; background-color: #0c0a09; color: #fff; border: none; border-radius: 5px; cursor: pointer;"
+
+    // Translation dictionary for various languages
     var translation = {
       "en": "Open",
       "fr": "Ouvrir",
@@ -19,12 +27,19 @@ function cryptoPayButton(_ref) {
       "zh": "打开"
     };
 
-    // Inject the modal HTML
-    var modalHTML = "\n    <div id=\"modalContainer\" style=\"display: none;\">\n      <div id=\"modalContent\">\n        <span><img id=\"logo\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/cryptocadetlogo_white.png\"/>cryptocadet&trade;</span>\n        <a href=\"#\" id=\"metamaskLink\"><button><img src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/MetaMask_Fox.png\"/> ".concat(translation[lang], " Metamask</button></a>\n        <a href=\"#\" id=\"coinbaseLink\"><button><img src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/coinbase_icon.png\"/> ").concat(translation[lang], " Coinbase Wallet</button></a>\n      </div>\n    </div>");
+    // Generate unique IDs for each component
+    var modalContainerId = generateUniqueId("modalContainer");
+    var metamaskLinkId = generateUniqueId("metamaskLink");
+    var coinbaseLinkId = generateUniqueId("coinbaseLink");
+
+    // Inject the modal HTML with unique IDs
+    var modalHTML = "\n    <div class=\"modalContainer\" id=\"".concat(modalContainerId, "\" style=\"display: none;\">\n      <div class=\"modalContent\" id=\"modalContent\">\n        <span><img id=\"logo\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.16.0/dist/assets/cryptocadetlogo_white.png\"/>cryptocadet&trade;</span>\n        <a href=\"#\" id=\"").concat(metamaskLinkId, "\" style=\"text-decoration: none\" ><button><img style=\"height: 24px\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.16.0/dist/assets/MetaMask_Fox.png\"/> ").concat(translation[lang], " Metamask</button></a>\n        <a href=\"#\" id=\"").concat(coinbaseLinkId, "\" style=\"text-decoration: none\" ><button><img style=\"height: 24px\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.16.0/dist/assets/coinbase_icon.png\"/> ").concat(translation[lang], " Coinbase Wallet</button></a>\n      </div>\n    </div>");
     document.body.insertAdjacentHTML("beforeend", modalHTML);
-    var modalContainer = document.getElementById("modalContainer");
-    var metamaskLink = document.getElementById("metamaskLink");
-    var coinbaseLink = document.getElementById("coinbaseLink");
+    var modalContainer = document.getElementById(modalContainerId);
+    var metamaskLink = document.getElementById(metamaskLinkId);
+    var coinbaseLink = document.getElementById(coinbaseLinkId);
+
+    // Functions to show and hide the modal
     function showModal() {
       modalContainer.style.display = "block";
       modalContainer.style.width = "90%";
@@ -42,12 +57,18 @@ function cryptoPayButton(_ref) {
 
     // Add click event listener to the document for closing modal on click outside
     document.addEventListener('mousedown', handleClickOutside);
-    if (!document.getElementById("showModalButton")) {
+    var buttonId = generateUniqueId("showModalButton");
+    if (!document.getElementById(buttonId)) {
       var button = document.createElement('button');
-      button.id = 'showModalButton';
+      button.className = 'showModalButton';
+      button.id = buttonId;
       button.textContent = label; // Set button text
       button.style = style;
-      (container ? container : document.body).appendChild(button);
+      if (container) {
+        container.appendChild(button);
+      } else {
+        return null;
+      }
       button.addEventListener('click', function () {
         // Detect if it's a mobile device
         function isMobileDevice() {

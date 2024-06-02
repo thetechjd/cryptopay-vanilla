@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CryptoCadet&trade; Pay</title>
-    <link href='https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/style.css' rel='stylesheet'>
+    <link href='/style.css' rel='stylesheet'>
 
   </head>
   <body>
@@ -16,7 +16,7 @@
 
 
     <script type="module">
-      import { cryptoPayButton } from 'https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0';
+      import { cryptoPayButton } from 'https://unpkg.com/@cryptocadet/crypto-pay-vanilla';
        cryptoPayButton({
          apiKey: 'njtt2u2soso',
          productId:  'tennis-shoes37482',
@@ -25,6 +25,17 @@
          email: 'required',
          shippingAddress: null,
          label:  'Pay Now',
+         lang: 'en'
+ 
+       });
+       cryptoPayButton({
+         apiKey: 'njtt2u2soso',
+         productId:  'tennis-shoes37482',
+         containerSelector:  'button-container2',
+         style: 'background-color: red',
+         email: 'required',
+         shippingAddress: null,
+         label:  'Hit me',
          lang: 'en'
  
        });

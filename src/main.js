@@ -1,7 +1,20 @@
-export function cryptoPayButton({apiKey, productId, label, style, containerSelector, email, shippingAddress, lang}) {
+function generateUniqueId(prefix) {
+  // Generates a unique ID using a prefix and a random string
+  return `${prefix}-${Math.random().toString(36).substr(2, 9)}`;
+}
+
+  
+
+
+
+export function cryptoPayButton({apiKey, productId, label, style, containerSelector, email, shippingAddress, lang, eth = true, sol}) {
   document.addEventListener('DOMContentLoaded', function(event) {
     const container = document.getElementById(containerSelector);
 
+//const buttonStyle = "padding: 10px 20px; background-color: #0c0a09; color: #fff; border: none; border-radius: 5px; cursor: pointer;"
+
+   
+    // Translation dictionary for various languages
     const translation = {
       "en": "Open",
       "fr": "Ouvrir",
@@ -10,23 +23,40 @@ export function cryptoPayButton({apiKey, productId, label, style, containerSelec
       "pt": "Abrir",
       "de": "Öffnen",
       "zh": "打开"
-    }
+    };
+
+    // Generate unique IDs for each component
+    const modalContainerId = generateUniqueId("modalContainer");
+    const metamaskLinkId = generateUniqueId("metamaskLink");
+    const coinbaseLinkId = generateUniqueId("coinbaseLink");
+    const phantomLinkId = generateUniqueId("phantomLink");
+
     
-    // Inject the modal HTML
+ 
+      
+    
+    
+    
+
+    
+    // Inject the modal HTML with unique IDs
     const modalHTML = `
-    <div id="modalContainer" style="display: none;">
-      <div id="modalContent">
-        <span><img id="logo" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/cryptocadetlogo_white.png"/>cryptocadet&trade;</span>
-        <a href="#" id="metamaskLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/MetaMask_Fox.png"/> ${translation[lang]} Metamask</button></a>
-        <a href="#" id="coinbaseLink"><button><img src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.14.0/dist/assets/coinbase_icon.png"/> ${translation[lang]} Coinbase Wallet</button></a>
+    <div class="modalContainer" id="${modalContainerId}" style="display: none;">
+      <div class="modalContent" id="modalContent">
+        <span><img id="logo" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla/dist/assets/cryptocadetlogo_white.png"/>cryptocadet&trade;</span>
+        <a href="#" id="${metamaskLinkId}" style="text-decoration: none" ><button><img style="height: 24px" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla/dist/assets/MetaMask_Fox.png"/> ${translation[lang]} Metamask</button></a>
+        <a href="#" id="${coinbaseLinkId}" style="text-decoration: none" ><button><img style="height: 24px" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla/dist/assets/coinbase_icon.png"/> ${translation[lang]} Coinbase</button></a>
+        <a href="#" id="${phantomLinkId}" style="text-decoration: none" ><button><img style="height: 24px" src="https://unpkg.com/@cryptocadet/crypto-pay-vanilla/dist/assets/phantom-logo.png"/> ${translation[lang]} Phantom</button></a>
       </div>
     </div>`;
     document.body.insertAdjacentHTML("beforeend", modalHTML);
-    
-    const modalContainer = document.getElementById("modalContainer");
-    const metamaskLink = document.getElementById("metamaskLink");
-    const coinbaseLink = document.getElementById("coinbaseLink");
 
+    const modalContainer = document.getElementById(modalContainerId);
+    const metamaskLink = document.getElementById(metamaskLinkId);
+    const coinbaseLink = document.getElementById(coinbaseLinkId);
+    const phantomLink = document.getElementById(phantomLinkId)
+
+    // Functions to show and hide the modal
     function showModal() {
       modalContainer.style.display = "block";
       modalContainer.style.width = "90%";
@@ -35,26 +65,33 @@ export function cryptoPayButton({apiKey, productId, label, style, containerSelec
     function hideModal() {
       modalContainer.style.display = "none";
     }
-    
-    
+
     // Function to handle click outside the modal to close it
     function handleClickOutside(event) {
       if (modalContainer && !modalContainer.contains(event.target)) {
         hideModal();
       }
     }
-  
 
     // Add click event listener to the document for closing modal on click outside
     document.addEventListener('mousedown', handleClickOutside);
 
-    if (!document.getElementById("showModalButton")) {
+   
+
+    const buttonId = generateUniqueId("showModalButton");
+    if (!document.getElementById(buttonId)) {
       const button = document.createElement('button');
-      button.id = 'showModalButton';
+      button.className = 'showModalButton'
+      button.id = buttonId;
       button.textContent = label; // Set button text
       button.style = style;
 
-      (container ? container : document.body).appendChild(button);
+      
+      if(container){
+        container.appendChild(button);
+      } else {
+        return null;
+      }
 
       button.addEventListener('click', function() {
         // Detect if it's a mobile device
@@ -70,13 +107,32 @@ export function cryptoPayButton({apiKey, productId, label, style, containerSelec
             refCode = q.get("referrer");
           }
         }
+
+        const queryParams = new URLSearchParams({
+          pubKey: apiKey,
+          prod: productId,
+          referrer: refCode,
+          email: email,
+          shippingAddress: shippingAddress,
+          lang: lang,
+          eth: eth,
+          sol: sol
+        })
+    
+        
+        const encodedUrl = encodeURIComponent(`https://portal.cryptocadet.app?${queryParams.toString()}`);
+      
+       
+       
         
         if (isMobileDevice()) {
           const metamaskURL = `https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=${apiKey}&prod=${productId}&referrer=${refCode}&email=${email}&shippingAddress=${shippingAddress}&lang=${lang}`;
           const coinbaseURL = `https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D${apiKey}%26prod%3D${productId}%26referrer%3D${refCode}%26email%3D${email}%26shippingAddress%3D${shippingAddress}%26lang%3D${lang}`;
+          const phantomURL = `https://phantom.app/ul/browse/${encodedUrl}`
 
           metamaskLink.setAttribute("href", metamaskURL);
           coinbaseLink.setAttribute("href", coinbaseURL);
+          phantomLink.setAttribute("href", phantomURL)
           
           showModal(); // Instead of directly manipulating style, we call showModal
         } else {
