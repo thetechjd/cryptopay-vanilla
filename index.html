@@ -18,17 +18,22 @@
     <script type="module">
       import { cryptoPayButton } from 'https://unpkg.com/@cryptocadet/crypto-pay-vanilla';
        cryptoPayButton({
-         apiKey: 'njtt2u2soso',
-         productId:  'tennis-shoes37482',
+         apiKey: 'your-api-key',
+         productId:  'your-product-id',
          containerSelector:  'button-container',
+         displayName: 'your-display-name',
          style: null,
+         cartStyle: null,
          email: 'required',
          shippingAddress: null,
          label:  'Pay Now',
-         lang: 'en'
+         lang: 'en',
+         shoppingCart: false,
+         sol: true,
+         noQuantity: true
  
        });
-       cryptoPayButton({
+       /* cryptoPayButton({
          apiKey: 'njtt2u2soso',
          productId:  'tennis-shoes37482',
          containerSelector:  'button-container2',
@@ -38,7 +43,7 @@
          label:  'Hit me',
          lang: 'en'
  
-       });
+       }); */
  
      </script>
 

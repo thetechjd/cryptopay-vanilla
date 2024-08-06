@@ -1,8 +1,8 @@
 {
   "name": "@cryptocadet/crypto-pay-vanilla",
   "private": false,
-  "version": "1.20.0",
-  "description": "Api for evm-chain crypto payment integration written in pure Javascript.",
+  "version": "4.0.0",
+  "description": "Api for evm-chain and Solana crypto payment integration written in pure Javascript.",
   "main": "./dist/main.js",
   "type": "module",
   "exports": {

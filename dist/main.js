@@ -10,7 +10,11 @@ function cryptoPayButton(_ref) {
     containerSelector = _ref.containerSelector,
     email = _ref.email,
     shippingAddress = _ref.shippingAddress,
-    lang = _ref.lang;
+    _ref$lang = _ref.lang,
+    lang = _ref$lang === void 0 ? 'en' : _ref$lang,
+    _ref$eth = _ref.eth,
+    eth = _ref$eth === void 0 ? true : _ref$eth,
+    sol = _ref.sol;
   document.addEventListener('DOMContentLoaded', function (event) {
     var container = document.getElementById(containerSelector);
 
@@ -31,13 +35,15 @@ function cryptoPayButton(_ref) {
     var modalContainerId = generateUniqueId("modalContainer");
     var metamaskLinkId = generateUniqueId("metamaskLink");
     var coinbaseLinkId = generateUniqueId("coinbaseLink");
+    var phantomLinkId = generateUniqueId("phantomLink");
 
     // Inject the modal HTML with unique IDs
-    var modalHTML = "\n    <div class=\"modalContainer\" id=\"".concat(modalContainerId, "\" style=\"display: none;\">\n      <div class=\"modalContent\" id=\"modalContent\">\n        <span><img id=\"logo\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.16.0/dist/assets/cryptocadetlogo_white.png\"/>cryptocadet&trade;</span>\n        <a href=\"#\" id=\"").concat(metamaskLinkId, "\" style=\"text-decoration: none\" ><button><img style=\"height: 24px\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.16.0/dist/assets/MetaMask_Fox.png\"/> ").concat(translation[lang], " Metamask</button></a>\n        <a href=\"#\" id=\"").concat(coinbaseLinkId, "\" style=\"text-decoration: none\" ><button><img style=\"height: 24px\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla@1.16.0/dist/assets/coinbase_icon.png\"/> ").concat(translation[lang], " Coinbase Wallet</button></a>\n      </div>\n    </div>");
+    var modalHTML = "\n    <div class=\"modalContainer\" id=\"".concat(modalContainerId, "\" style=\"display: none;\">\n      <div class=\"modalContent\" id=\"modalContent\">\n        <span><img id=\"logo\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla/dist/assets/cryptocadetlogo_white.png\"/>cryptocadet&trade;</span>\n        <a href=\"#\" id=\"").concat(metamaskLinkId, "\" style=\"text-decoration: none\" ><button><img style=\"height: 24px\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla/dist/assets/MetaMask_Fox.png\"/> ").concat(translation[lang], " Metamask</button></a>\n        <a href=\"#\" id=\"").concat(coinbaseLinkId, "\" style=\"text-decoration: none\" ><button><img style=\"height: 24px\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla/dist/assets/coinbase_icon.png\"/> ").concat(translation[lang], " Coinbase</button></a>\n        <a href=\"#\" id=\"").concat(phantomLinkId, "\" style=\"text-decoration: none\" ><button><img style=\"height: 24px\" src=\"https://unpkg.com/@cryptocadet/crypto-pay-vanilla/dist/assets/phantom-logo.png\"/> ").concat(translation[lang], " Phantom</button></a>\n      </div>\n    </div>");
     document.body.insertAdjacentHTML("beforeend", modalHTML);
     var modalContainer = document.getElementById(modalContainerId);
     var metamaskLink = document.getElementById(metamaskLinkId);
     var coinbaseLink = document.getElementById(coinbaseLinkId);
+    var phantomLink = document.getElementById(phantomLinkId);
 
     // Functions to show and hide the modal
     function showModal() {
@@ -82,11 +88,24 @@ function cryptoPayButton(_ref) {
             refCode = q.get("referrer");
           }
         }
+        var queryParams = new URLSearchParams({
+          pubKey: apiKey,
+          prod: productId,
+          referrer: refCode,
+          email: email,
+          shippingAddress: shippingAddress,
+          lang: lang,
+          eth: eth,
+          sol: sol
+        });
+        var encodedUrl = encodeURIComponent("https://portal.cryptocadet.app?".concat(queryParams.toString()));
         if (isMobileDevice()) {
-          var metamaskURL = "https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=".concat(apiKey, "&prod=").concat(productId, "&referrer=").concat(refCode, "&email=").concat(email, "&shippingAddress=").concat(shippingAddress, "&lang=").concat(lang);
-          var coinbaseURL = "https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D".concat(apiKey, "%26prod%3D").concat(productId, "%26referrer%3D").concat(refCode, "%26email%3D").concat(email, "%26shippingAddress%3D").concat(shippingAddress, "%26lang%3D").concat(lang);
+          var metamaskURL = "https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=".concat(apiKey, "&prod=").concat(productId, "&referrer=").concat(refCode, "&email=").concat(email, "&shippingAddress=").concat(shippingAddress, "&lang=").concat(lang, "&eth=").concat(eth, "&sol=").concat(sol);
+          var coinbaseURL = "https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D".concat(apiKey, "%26prod%3D").concat(productId, "%26referrer%3D").concat(refCode, "%26email%3D").concat(email, "%26shippingAddress%3D").concat(shippingAddress, "%26lang%3D").concat(lang, "%26eth%3D").concat(eth, "%26sol%3D").concat(sol);
+          var phantomURL = "https://phantom.app/ul/browse/".concat(encodedUrl);
           metamaskLink.setAttribute("href", metamaskURL);
           coinbaseLink.setAttribute("href", coinbaseURL);
+          phantomLink.setAttribute("href", phantomURL);
           showModal(); // Instead of directly manipulating style, we call showModal
         } else {
           // For non-mobile devices
@@ -106,7 +125,7 @@ function cryptoPayButton(_ref) {
             return response.json();
           }).then(function (data) {
             if (data) {
-              var newUrl = "https://portal.cryptocadet.app?pubKey=".concat(apiKey, "&prod=").concat(productId, "&referrer=").concat(refCode, "&email=").concat(email, "&shippingAddress=").concat(shippingAddress, "&lang=").concat(lang);
+              var newUrl = "https://portal.cryptocadet.app?pubKey=".concat(apiKey, "&prod=").concat(productId, "&referrer=").concat(refCode, "&email=").concat(email, "&shippingAddress=").concat(shippingAddress, "&lang=").concat(lang, "&eth=").concat(eth, "&sol=").concat(sol);
               newWindow.location = newUrl;
             } else {
               newWindow.close();
