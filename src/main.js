@@ -18,7 +18,7 @@ function addItemToLocalStorageArray(key, item) {
 }
 
 export function cryptoPayButton({
-  apiKey, productId, label, style, cartStyle, containerSelector, email, shippingAddress, lang = 'en', eth = true, sol, redirect, onSuccess, shoppingCart, noQuantity, displayName
+  apiKey, productId, label, style, cartStyle, containerSelector, email, shippingAddress, lang = 'en', eth = true, sol, redirect, onSuccess, shoppingCart, noQuantity, displayName, priceOnly
 }) {
   document.addEventListener('DOMContentLoaded', function(event) {
     const container = document.getElementById(containerSelector);
@@ -138,8 +138,8 @@ export function cryptoPayButton({
         }
 
         if (isMobileDevice()) {
-          const metamaskURL = `https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=${apiKey}&prod=${localStorage.getItem(`${apiKey}-cart`) ? localStorage.getItem(`${apiKey}-cart`) : productId}&referrer=${refCode}&email=${email}&shippingAddress=${shippingAddress}&lang=${lang}&shoppingCart=${localStorage.getItem(`${apiKey}-cart`) ? true : false}&noQuantity=${noQuantity}`;
-          const coinbaseURL = `https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D${apiKey}%26prod%3D${localStorage.getItem(`${apiKey}-cart`) ? localStorage.getItem(`${apiKey}-cart`) : productId}%26referrer%3D${refCode}%26email%3D${email}%26shippingAddress%3D${shippingAddress}%26lang%3D${lang}%26shoppingCart%3D${localStorage.getItem(`${apiKey}-cart`) ? true : false}%26noQuantity%3D${noQuantity}`;
+          const metamaskURL = `https://metamask.app.link/dapp/portal.cryptocadet.app?pubKey=${apiKey}&prod=${localStorage.getItem(`${apiKey}-cart`) ? localStorage.getItem(`${apiKey}-cart`) : productId}&referrer=${refCode}&email=${email}&shippingAddress=${shippingAddress}&lang=${lang}&shoppingCart=${localStorage.getItem(`${apiKey}-cart`) ? true : false}&noQuantity=${noQuantity}&priceOnly=${priceOnly}&walletApp=true`;
+          const coinbaseURL = `https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fportal.cryptocadet.app%3FpubKey%3D${apiKey}%26prod%3D${localStorage.getItem(`${apiKey}-cart`) ? localStorage.getItem(`${apiKey}-cart`) : productId}%26referrer%3D${refCode}%26email%3D${email}%26shippingAddress%3D${shippingAddress}%26lang%3D${lang}%26shoppingCart%3D${localStorage.getItem(`${apiKey}-cart`) ? true : false}%26noQuantity%3D${noQuantity}%26priceOnly%3D${priceOnly}%26walletApp%3Dtrue`;
           const queryParams = new URLSearchParams({
             pubKey: apiKey,
             prod: productId,
@@ -149,8 +149,11 @@ export function cryptoPayButton({
             lang: lang,
             eth: eth,
             sol: sol,
+            walletApp: true,
             shoppingCart: localStorage.getItem(`${apiKey}-cart`) ? true : false,
-            noQuantity: noQuantity
+            noQuantity: noQuantity,
+            priceOnly: priceOnly,
+            ref: "https://cryptocadet.io" 
           });
           const encodedUrl = encodeURIComponent(`https://portal.cryptocadet.app?${queryParams.toString()}`);
           const phantomURL = `https://phantom.app/ul/browse/${encodedUrl}`;
@@ -159,13 +162,15 @@ export function cryptoPayButton({
           coinbaseLink.setAttribute("href", coinbaseURL);
           phantomLink.setAttribute("href", phantomURL);
 
+          localStorage.removeItem(`${apiKey}-cart`);
+
           showModal();
         } else {
           let params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,
             width=400,height=500,left=${window.screen.width},top=0`;
           const newWindow = window.open("", "_blank", params);
 
-          const apiUrl = `https://api.cryptocadet.app/api/user/get-user`;
+          const apiUrl = `https://api.cryptocadet.app/api/user/checkout`;
           const data = { apiKey };
 
           try {
@@ -178,7 +183,7 @@ export function cryptoPayButton({
             });
 
             if (response.ok) {
-              const newUrl = `https://portal.cryptocadet.app?pubKey=${apiKey}&prod=${localStorage.getItem(`${apiKey}-cart`) ? localStorage.getItem(`${apiKey}-cart`) : JSON.stringify({ productId: productId })}&referrer=${refCode}&email=${email}&shippingAddress=${shippingAddress}&lang=${lang}&eth=${eth}&sol=${sol}&redirect=${redirect}&shoppingCart=${localStorage.getItem(`${apiKey}-cart`) ? true : false}&noQuantity=${noQuantity}`;
+              const newUrl = `https://portal.cryptocadet.app?pubKey=${apiKey}&prod=${localStorage.getItem(`${apiKey}-cart`) ? localStorage.getItem(`${apiKey}-cart`) : JSON.stringify({ productId: productId })}&referrer=${refCode}&email=${email}&shippingAddress=${shippingAddress}&lang=${lang}&eth=${eth}&sol=${sol}&redirect=${redirect}&shoppingCart=${localStorage.getItem(`${apiKey}-cart`) ? true : false}&noQuantity=${noQuantity}&priceOnly=${priceOnly}`;
               console.log('Navigating to:', newUrl);
               localStorage.removeItem(`${apiKey}-cart`);
               newWindow.location = newUrl;
